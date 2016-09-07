@@ -88,8 +88,15 @@ public class StorageFile {
         /* Note: Note the 'try with resource' statement below.
          * More info: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
          */
+    	
+    	File file = path.toFile();
+    	
+    	if (!file.exists()) {
+    		throw new StorageOperationException("File missing!");
+    	}
+    	
         try (final Writer fileWriter =
-                     new BufferedWriter(new FileWriter(path.toFile()))) {
+                     new BufferedWriter(new FileWriter(file))) {
 
             final AdaptedAddressBook toSave = new AdaptedAddressBook(addressBook);
             final Marshaller marshaller = jaxbContext.createMarshaller();
