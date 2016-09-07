@@ -2,6 +2,7 @@ package seedu.addressbook.data.person;
 
 import seedu.addressbook.data.tag.UniqueTagList;
 
+import java.lang.reflect.Array;
 import java.util.Objects;
 
 /**
@@ -83,5 +84,19 @@ public class Person implements ReadOnlyPerson {
     public String toString() {
         return getAsTextShowAll();
     }
+
+	@Override
+	public String getPrintableString(Printable... printables) {
+		if (printables.length <= 0)
+			return "";
+		
+		String[] strings = new String[printables.length];
+		
+		for (int i = 0; i < printables.length; i++) {
+			strings[i] = printables[i].getPrintableString();
+		}
+		
+		return " " + String.join(" ", strings);
+	}
 
 }

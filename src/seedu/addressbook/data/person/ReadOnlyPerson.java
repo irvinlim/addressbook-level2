@@ -1,5 +1,7 @@
 package seedu.addressbook.data.person;
 
+import java.util.ArrayList;
+
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.data.tag.UniqueTagList;
 
@@ -19,6 +21,11 @@ public interface ReadOnlyPerson {
      * changes on the returned list will not affect the person's internal tags.
      */
     UniqueTagList getTags();
+    
+    /**
+     * Returns a concatenated version of the printable strings of each object.
+     */
+    String getPrintableString(Printable... printables);
 
     /**
      * Returns true if the values inside this object is same as those of the other (Note: interfaces cannot override .equals)
@@ -65,18 +72,28 @@ public interface ReadOnlyPerson {
      * Formats a person as text, showing only non-private contact details.
      */
     default String getAsTextHidePrivate() {
+    	ArrayList<Printable> printables = new ArrayList<Printable>();
+    	
+    	// Add to ArrayList only if not private
+        if (!getPhone().isPrivate()) 
+        	printables.add(getPhone());
+        if (!getEmail().isPrivate()) 
+        	printables.add(getEmail());
+        if (!getAddress().isPrivate()) 
+        	printables.add(getAddress());
+        
+        // Convert to array
+        Printable[] printablesArray = new Printable[printables.size()];
+        printables.toArray(printablesArray);
+        
+    	String contactDetails = getPrintableString(printablesArray);
+    	
+    	// Start building the string
         final StringBuilder builder = new StringBuilder();
-        builder.append(getName());
-        if (!getPhone().isPrivate()) {
-            builder.append(" Phone: ").append(getPhone());
-        }
-        if (!getEmail().isPrivate()) {
-            builder.append(" Email: ").append(getEmail());
-        }
-        if (!getAddress().isPrivate()) {
-            builder.append(" Address: ").append(getAddress());
-        }
-        builder.append(" Tags: ");
+        builder.append(getName())
+        		.append(contactDetails)
+        		.append(" Tags: ");
+        		
         for (Tag tag : getTags()) {
             builder.append(tag);
         }
