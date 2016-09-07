@@ -13,6 +13,7 @@ public interface ReadOnlyPerson {
     Phone getPhone();
     Email getEmail();
     Address getAddress();
+    Integer getSequenceNumber();
 
     /**
      * The returned TagList is a deep copy of the internal TagList,
@@ -39,6 +40,7 @@ public interface ReadOnlyPerson {
         final StringBuilder builder = new StringBuilder();
         final String detailIsPrivate = "(private) ";
         builder.append(getName())
+        		.append(" S/N: ").append(getSequenceNumber())
                 .append(" Phone: ");
         if (getPhone().isPrivate()) {
             builder.append(detailIsPrivate);
@@ -67,6 +69,7 @@ public interface ReadOnlyPerson {
     default String getAsTextHidePrivate() {
         final StringBuilder builder = new StringBuilder();
         builder.append(getName());
+        builder.append(" S/N: ").append(getSequenceNumber());
         if (!getPhone().isPrivate()) {
             builder.append(" Phone: ").append(getPhone());
         }
