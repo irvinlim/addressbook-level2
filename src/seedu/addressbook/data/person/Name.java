@@ -2,8 +2,12 @@ package seedu.addressbook.data.person;
 
 import seedu.addressbook.data.exception.IllegalValueException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a Person's name in the address book.
@@ -42,7 +46,28 @@ public class Name {
      * Two names are considered similar if they differ only in case, word ordering, or is a super/subset, etc.
      */
     public boolean isSimilar(Name other) {
-    	return true;
+    	if (other == null)
+    		return false;
+    	
+    	String thisName = fullName.toLowerCase();
+    	String otherName = other.fullName.toLowerCase();
+    	
+    	String[] thisNameWords = thisName.split(" ");
+    	String[] otherNameWords = otherName.split(" ");
+
+    	Set<String> thisNameSet = new HashSet<String>(Arrays.asList(thisNameWords));
+    	Set<String> otherNameSet = new HashSet<String>(Arrays.asList(otherNameWords));
+    	Set<String> thisNameSetCopy = new HashSet<String>(thisNameSet);
+    	Set<String> otherNameSetCopy = new HashSet<String>(otherNameSet);
+    	
+    	// Get asymmetric set difference
+    	otherNameSetCopy.removeAll(thisNameSet);
+    	thisNameSetCopy.removeAll(otherNameSet);
+
+    	// Check if either resultant set is empty, to determine if either of them were subsets of the other
+    	boolean isEitherASubset = thisNameSetCopy.size() == 0 || otherNameSetCopy.size() == 0;
+    	
+    	return isEitherASubset;
     }
 
     /**

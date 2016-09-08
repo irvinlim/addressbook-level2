@@ -20,7 +20,7 @@ public class NameTest {
 	public void isSimilar_testWithDifferentName() throws IllegalValueException {
 		Name testCase = new Name("John Smith");
 		Name otherCase = new Name("Jack Wilde");
-		boolean actual = testCase.isSimilar(otherCase);
+		boolean actual = testCase.isSimilar(otherCase) || otherCase.isSimilar(testCase);
 		assertEquals(false, actual);
 	}
 
@@ -28,7 +28,7 @@ public class NameTest {
 	public void isSimilar_testWithDifferentLastName() throws IllegalValueException {
 		Name testCase = new Name("John Smith");
 		Name otherCase = new Name("John Wilde");
-		boolean actual = testCase.isSimilar(otherCase);
+		boolean actual = testCase.isSimilar(otherCase) || otherCase.isSimilar(testCase);
 		assertEquals(false, actual);
 	}
 
@@ -36,7 +36,7 @@ public class NameTest {
 	public void isSimilar_testWithExact() throws IllegalValueException {
 		Name testCase = new Name("John Smith");
 		Name otherCase = new Name("John Smith");
-		boolean actual = testCase.isSimilar(otherCase);
+		boolean actual = testCase.isSimilar(otherCase) && otherCase.isSimilar(testCase);
 		assertEquals(true, actual);
 	}
 
@@ -44,7 +44,7 @@ public class NameTest {
 	public void isSimilar_testWithDifferentCase() throws IllegalValueException {
 		Name testCase = new Name("John Smith");
 		Name otherCase = new Name("john smith");
-		boolean actual = testCase.isSimilar(otherCase);
+		boolean actual = testCase.isSimilar(otherCase) && otherCase.isSimilar(testCase);
 		assertEquals(true, actual);
 	}
 
@@ -52,7 +52,7 @@ public class NameTest {
 	public void isSimilar_testWithDifferentOrdering() throws IllegalValueException {
 		Name testCase = new Name("John Smith");
 		Name otherCase = new Name("Smith John");
-		boolean actual = testCase.isSimilar(otherCase);
+		boolean actual = testCase.isSimilar(otherCase) && otherCase.isSimilar(testCase);
 		assertEquals(true, actual);
 	}
 
@@ -60,7 +60,7 @@ public class NameTest {
 	public void isSimilar_testWithSuperSet() throws IllegalValueException {
 		Name testCase = new Name("John Smith");
 		Name otherCase = new Name("John K Smith");
-		boolean actual = testCase.isSimilar(otherCase);
+		boolean actual = testCase.isSimilar(otherCase) && otherCase.isSimilar(testCase);
 		assertEquals(true, actual);
 	}
 
@@ -68,7 +68,7 @@ public class NameTest {
 	public void isSimilar_testWithSubSet() throws IllegalValueException {
 		Name testCase = new Name("John K Smith");
 		Name otherCase = new Name("John Smith");
-		boolean actual = testCase.isSimilar(otherCase);
+		boolean actual = testCase.isSimilar(otherCase) && otherCase.isSimilar(testCase);
 		assertEquals(true, actual);
 	}
 
