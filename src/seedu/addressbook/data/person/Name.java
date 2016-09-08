@@ -36,6 +36,14 @@ public class Name {
     public static boolean isValidName(String test) {
         return test.matches(NAME_VALIDATION_REGEX);
     }
+    
+    /**
+     * Returns true of the other name is very similar to this name.
+     * Two names are considered similar if they differ only in case, word ordering, or is a super/subset, etc.
+     */
+    public boolean isSimilar(Name other) {
+    	return true;
+    }
 
     /**
      * Retrieves a listing of every word in the name, in order.
